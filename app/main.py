@@ -1,10 +1,11 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from app.config import settings
-from app.database import Base, engine
+from app.database import Base, engine, SessionLocal
 from app.api.v1.router import api_router
 from app.models import Service, Barber
-from app.database import SessionLocal
 
 Base.metadata.create_all(bind=engine)
 
@@ -45,6 +46,16 @@ def seed_initial_data():
     finally:
         db.close()
 
+# Servir o site principal (index.html) na rota inicial
 @app.get("/")
-def root():
+def read_root():
+    if os.path.exists("index.html"):
+        return FileResponse("index.html")
     return {"message": "API Barbearia Matheus do Corte rodando com sucesso!", "docs": "/docs"}
+
+# Servir os demais ficheiros .html (ex: /admin.html, /relatorios.html) e estáticos
+@app.get("/{filename}")
+def read_file(filename: str):
+    if os.path.exists(filename):
+        return FileResponse(filename)
+    return {"detail": "Not Found"}
