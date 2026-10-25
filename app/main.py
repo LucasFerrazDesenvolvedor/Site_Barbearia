@@ -53,9 +53,13 @@ def read_root():
         return FileResponse("index.html")
     return {"message": "API Barbearia Matheus do Corte rodando com sucesso!", "docs": "/docs"}
 
-# Servir os demais ficheiros .html (ex: /admin.html, /relatorios.html) e estáticos
+# Servir arquivos HTML com ou sem a extensão .html na URL (ex: /admin ou /admin.html)
 @app.get("/{filename}")
 def read_file(filename: str):
-    if os.path.exists(filename):
-        return FileResponse(filename)
+    # Se a URL não tiver .html, tenta adicionar para procurar o arquivo físico
+    target_file = filename if filename.endswith(".html") else f"{filename}.html"
+    
+    if os.path.exists(target_file):
+        return FileResponse(target_file)
+    
     return {"detail": "Not Found"}
