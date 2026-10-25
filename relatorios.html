@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - Barbearia Matheus do Corte</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Biblioteca jsPDF para gerar PDF direto no navegador -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        barber: {
+                            dark: '#121212',
+                            card: '#1e1e1e',
+                            gold: '#d4af37',
+                            goldHover: '#c19b2e',
+                            grayText: '#a0aec0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-barber-dark text-white font-sans antialiased min-h-screen">
+
+    <!-- HEADER -->
+    <header class="bg-barber-card border-b border-zinc-800 py-4 px-6 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-barber-gold flex items-center justify-center text-black font-bold">
+                <i class="fa-solid fa-file-lines"></i>
+            </div>
+            <div>
+                <span class="font-bold text-base block">Central de Relatórios</span>
+                <span class="text-xs text-barber-gold">Matheus do Corte</span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="admin.html" class="text-xs bg-zinc-800 hover:bg-zinc-700 px-4 py-2 rounded-lg border border-zinc-700 transition">
+                <i class="fa-solid fa-arrow-left mr-1"></i> Voltar ao Painel
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 sm:p-6 space-y-8">
+        
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h2 class="text-2xl font-black uppercase tracking-wide">Exportar <span class="text-barber-gold">Relatórios</span></h2>
+                <p class="text-barber-grayText text-xs sm:text-sm">Visualize os dados abaixo ou descarregue diretamente em Excel ou PDF.</p>
+            </div>
+        </div>
+
+        <!-- BOTÕES DE EXPORTAÇÃO (EXCEL E PDF) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <!-- Relatório do Mês -->
+            <div class="bg-barber-card border border-zinc-800 p-6 rounded-2xl hover:border-barber-gold transition flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-1">Agendamentos do Mês</h3>
+                    <p class="text-xs text-barber-grayText mb-6">Cortes registados no mês corrente.</p>
+                </div>
+                <div class="space-y-2">
+                    <button onclick="downloadReport('mes', 'excel')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow flex items-center justify-center">
+                        <i class="fa-solid fa-file-excel mr-2"></i> Baixar Excel
+                    </button>
+                    <button onclick="downloadReport('mes', 'pdf')" class="w-full bg-zinc-700 hover:bg-zinc-600 text-white font-bold py-2.5 rounded-xl transition text-xs shadow flex items-center justify-center">
+                        <i class="fa-solid fa-file-pdf mr-2 text-red-400"></i> Baixar PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Relatório Concluídos e Pagos -->
+            <div class="bg-barber-card border border-zinc-800 p-6 rounded-2xl hover:border-barber-gold transition flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-1">Concluídos e Pagos</h3>
+                    <p class="text-xs text-barber-grayText mb-6">Serviços realizados com pagamento confirmado.</p>
+                </div>
+                <div class="space-y-2">
+                    <button onclick="downloadReport('pagos', 'excel')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow flex items-center justify-center">
+                        <i class="fa-solid fa-file-excel mr-2"></i> Baixar Excel
+                    </button>
+                    <button onclick="downloadReport('pagos', 'pdf')" class="w-full bg-zinc-700 hover:bg-zinc-600 text-white font-bold py-2.5 rounded-xl transition text-xs shadow flex items-center justify-center">
+                        <i class="fa-solid fa-file-pdf mr-2 text-red-400"></i> Baixar PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Relatório Pendentes (A Receber) -->
+            <div class="bg-barber-card border border-zinc-800 p-6 rounded-2xl hover:border-barber-gold transition flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-1">Pendentes de Pagamento</h3>
+                    <p class="text-xs text-barber-grayText mb-6">Clientes agendados a receber.</p>
+                </div>
+                <div class="space-y-2">
+                    <button onclick="downloadReport('pendentes', 'excel')" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow flex items-center justify-center">
+                        <i class="fa-solid fa-file-excel mr-2"></i> Baixar Excel
+                    </button>
+                    <button onclick="downloadReport('pendentes', 'pdf')" class="w-full bg-zinc-700 hover:bg-zinc-600 text-white font-bold py-2.5 rounded-xl transition text-xs shadow flex items-center justify-center">
+                        <i class="fa-solid fa-file-pdf mr-2 text-red-400"></i> Baixar PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRÉ-VISUALIZAÇÃO DE DADOS NA TELA -->
+        <div class="bg-barber-card border border-zinc-800 p-6 rounded-2xl space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <h3 class="text-lg font-bold uppercase tracking-wider">Pré-visualização em <span class="text-barber-gold">Tempo Real</span></h3>
+                
+                <div class="flex space-x-2">
+                    <button onclick="filterView('todos')" class="filter-btn text-xs bg-barber-gold text-black font-bold px-3 py-1.5 rounded-lg transition">Todos</button>
+                    <button onclick="filterView('mes')" class="filter-btn text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-lg transition">Deste Mês</button>
+                    <button onclick="filterView('pagos')" class="filter-btn text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-lg transition">Pagos</button>
+                    <button onclick="filterView('pendentes')" class="filter-btn text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-lg transition">Pendentes</button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-zinc-300">
+                    <thead class="bg-zinc-800/60 uppercase text-xs text-barber-grayText">
+                        <tr>
+                            <th class="p-3 rounded-l-lg">Cliente</th>
+                            <th class="p-3">Telefone</th>
+                            <th class="p-3">Serviço</th>
+                            <th class="p-3">Data / Hora</th>
+                            <th class="p-3">Valor</th>
+                            <th class="p-3 rounded-r-lg">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportTableBody" class="divide-y divide-zinc-800">
+                        <!-- Preenchido via script -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- SCRIPT DE PROCESSAMENTO, PRÉ-VISUALIZAÇÃO E DOWNLOAD (EXCEL / PDF) -->
+    <script>
+        if (localStorage.getItem('barber_is_logged') !== 'true') {
+            window.location.href = 'admin.html';
+        }
+
+        let currentFilter = 'todos';
+
+        function getAllData() {
+            const appointments = JSON.parse(localStorage.getItem('barber_appointments_list')) || [];
+            const statuses = JSON.parse(localStorage.getItem('barber_appointment_statuses')) || {};
+            
+            return appointments.map((item, index) => {
+                const itemId = item.id || `app_${index}_${item.client_phone}`;
+                return {
+                    ...item,
+                    status: statuses[itemId] || 'agendado'
+                };
+            });
+        }
+
+        function filterData(type) {
+            const data = getAllData();
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+
+            return data.filter(item => {
+                const appDateStr = item.appointment_date || '';
+                let isCurrentMonth = false;
+                if (appDateStr) {
+                    const [y, m] = appDateStr.split('-').map(Number);
+                    if (y === currentYear && (m - 1) === currentMonth) isCurrentMonth = true;
+                }
+
+                if (type === 'mes') return isCurrentMonth;
+                if (type === 'pagos') return item.status === 'concluido';
+                if (type === 'pendentes') return item.status === 'agendado';
+                return true;
+            });
+        }
+
+        function renderTable(filter = 'todos') {
+            currentFilter = filter;
+            const tbody = document.getElementById('reportTableBody');
+            tbody.innerHTML = '';
+
+            const filtered = filterData(filter);
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-barber-grayText">Nenhum registo encontrado para este filtro.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const price = item.total_price || item.price || 35.00;
+                const statusBadge = item.status === 'concluido'
+                    ? `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-full text-xs font-semibold">Concluído / Pago</span>`
+                    : `<span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-full text-xs font-semibold">Pendente</span>`;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-zinc-800/30 transition">
+                        <td class="p-3 font-semibold text-white">${item.client_name || 'Cliente'}</td>
+                        <td class="p-3 text-barber-grayText">${item.client_phone || '-'}</td>
+                        <td class="p-3">${item.service_names || item.service || 'Corte'}</td>
+                        <td class="p-3">${item.appointment_date || '-'} às ${item.appointment_time || '-'}</td>
+                        <td class="p-3 font-bold text-barber-gold">R$ ${price.toFixed(2).replace('.', ',')}</td>
+                        <td class="p-3">${statusBadge}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function filterView(type) {
+            renderTable(type);
+        }
+
+        // Função unificada para download em Excel ou PDF
+        function downloadReport(type, format) {
+            const filtered = filterData(type);
+
+            if (filtered.length === 0) {
+                alert('Não existem dados para gerar este relatório.');
+                return;
+            }
+
+            if (format === 'excel') {
+                // Gerar Excel (CSV)
+                let csvContent = "\uFEFFCliente;Telefone;Servico;Data;Horario;Valor (R\$);Status\n";
+
+                filtered.forEach(item => {
+                    const price = (item.total_price || item.price || 35.00).toFixed(2).replace('.', ',');
+                    const statusText = item.status === 'concluido' ? 'Concluido / Pago' : 'Pendente';
+                    csvContent += `"${item.client_name || 'Cliente'}";"${item.client_phone || ''}";"${item.service_names || item.service || 'Corte'}";"${item.appointment_date || ''}";"${item.appointment_time || ''}";"${price}";"${statusText}"\n`;
+                });
+
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.setAttribute("href", url);
+                link.setAttribute("download", `relatorio_barbearia_${type}_${new Date().toISOString().split('T')[0]}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+            } else if (format === 'pdf') {
+                // Gerar PDF usando jsPDF
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(16);
+                doc.text("Barbearia Matheus do Corte - Relatório", 14, 20);
+
+                doc.setFontSize(10);
+                doc.setFont("helvetica", "normal");
+                doc.text(`Filtro: ${type.toUpperCase()} | Data de emissão: ${new Date().toLocaleDateString('pt-BR')}`, 14, 28);
+
+                const tableRows = filtered.map(item => {
+                    const price = (item.total_price || item.price || 35.00).toFixed(2).replace('.', ',');
+                    const statusText = item.status === 'concluido' ? 'Concluído / Pago' : 'Pendente';
+                    return [
+                        item.client_name || 'Cliente',
+                        item.client_phone || '',
+                        item.service_names || item.service || 'Corte',
+                        `${item.appointment_date || ''} às ${item.appointment_time || ''}`,
+                        `R$ ${price}`,
+                        statusText
+                    ];
+                });
+
+                doc.autoTable({
+                    head: [['Cliente', 'Telefone', 'Serviço', 'Data / Hora', 'Valor', 'Status']],
+                    body: tableRows,
+                    startY: 35,
+                    theme: 'grid',
+                    headStyles: { fillColor: [212, 175, 55] }, // Cor Dourada da barbearia
+                    styles: { fontSize: 9 }
+                });
+
+                doc.save(`relatorio_barbearia_${type}_${new Date().toISOString().split('T')[0]}.pdf`);
+            }
+        }
+
+        renderTable('todos');
+    </script>
+</body>
+</html>

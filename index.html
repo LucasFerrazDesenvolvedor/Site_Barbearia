@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia Matheus do Corte</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        barber: {
+                            dark: '#121212',
+                            card: '#1e1e1e',
+                            gold: '#d4af37',
+                            goldHover: '#c19b2e',
+                            grayText: '#a0aec0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-barber-dark text-white font-sans antialiased selection:bg-barber-gold selection:text-black">
+
+    <!-- HEADER / NAVBAR RESPONSIVA -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-barber-dark/95 backdrop-blur border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-barber-gold flex items-center justify-center text-black font-bold text-xl">
+                    <i class="fa-solid fa-scissors"></i>
+                </div>
+                <span class="text-lg sm:text-xl font-extrabold tracking-wider uppercase text-white">
+                    Matheus <span class="text-barber-gold">do Corte</span>
+                </span>
+            </div>
+
+            <!-- Menu Desktop -->
+            <nav class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#services" class="hover:text-barber-gold transition">Serviços</a>
+                <a href="#barbers" class="hover:text-barber-gold transition">O Barbeiro</a>
+                <a href="#booking" class="hover:text-barber-gold transition">Agendamento</a>
+            </nav>
+
+            <!-- Botão de Ação Desktop -->
+            <div class="hidden md:block">
+                <a href="#booking" class="bg-barber-gold text-black font-bold px-5 py-2.5 rounded-lg hover:bg-barber-goldHover transition shadow-lg shadow-barber-gold/20 text-sm">
+                    Agendar Horário
+                </a>
+            </div>
+
+            <!-- Botão Menu Mobile (Hambúrguer) -->
+            <button id="mobileMenuBtn" class="md:hidden text-2xl text-barber-gold focus:outline-none p-2">
+                <i class="fa-solid fa-bars" id="menuIcon"></i>
+            </button>
+        </div>
+
+        <!-- Menu Mobile Desdobrável -->
+        <div id="mobileMenu" class="hidden md:hidden bg-zinc-900 border-b border-zinc-800 px-6 py-6 space-y-4">
+            <a href="#services" class="block text-lg font-medium hover:text-barber-gold mobile-link">Serviços</a>
+            <a href="#barbers" class="block text-lg font-medium hover:text-barber-gold mobile-link">O Barbeiro</a>
+            <a href="#booking" class="block text-lg font-medium hover:text-barber-gold mobile-link">Agendamento</a>
+            <a href="#booking" class="block w-full text-center bg-barber-gold text-black font-bold py-3 rounded-xl hover:bg-barber-goldHover transition mobile-link">
+                Agendar Horário
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION RESPONSIVA -->
+    <section class="pt-28 pb-16 md:pt-40 md:pb-24 bg-gradient-to-b from-zinc-900 to-barber-dark border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-barber-gold/10 text-barber-gold text-xs font-semibold tracking-widest uppercase mb-4 border border-barber-gold/20">
+                Tradição & Estilo Moderno
+            </span>
+            <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight uppercase mb-6 leading-tight">
+                O seu visual em <br class="hidden sm:inline" /><span class="text-barber-gold">boas mãos</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-barber-grayText text-sm sm:text-base md:text-lg mb-8 px-2">
+                Cortes clássicos, degradês impecáveis, barba navalhada e um ambiente exclusivo pensado para cuidar da sua imagem.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto sm:max-w-none">
+                <a href="#booking" class="w-full sm:w-auto bg-barber-gold text-black font-bold px-8 py-4 rounded-xl hover:bg-barber-goldHover transition text-base md:text-lg shadow-xl shadow-barber-gold/20 flex items-center justify-center">
+                    <i class="fa-solid fa-calendar-check mr-2"></i> Agendar Agora
+                </a>
+                <a href="#services" class="w-full sm:w-auto bg-zinc-800 hover:bg-zinc-700 text-white font-semibold px-8 py-4 rounded-xl transition text-base md:text-lg border border-zinc-700 flex items-center justify-center">
+                    Ver Tabela de Preços
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVIÇOS -->
+    <section id="services" class="py-16 md:py-24 bg-barber-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl sm:text-3xl font-bold uppercase tracking-wider mb-2">Nossos <span class="text-barber-gold">Serviços</span></h2>
+                <p class="text-barber-grayText text-sm sm:text-base">Escolha os melhores tratamentos para o seu estilo</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- Card 1 -->
+                <div class="bg-barber-card p-6 md:p-8 rounded-2xl border border-zinc-800 hover:border-barber-gold transition group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-lg md:text-xl font-bold group-hover:text-barber-gold transition">Corte Degradê / Social</h3>
+                            <span class="text-barber-gold font-black text-lg md:text-xl ml-2">R$ 35,00</span>
+                        </div>
+                        <p class="text-barber-grayText text-sm mb-6">Acabamento impecável com navalha, lavagem e finalização com pomada profissional.</p>
+                    </div>
+                    <div class="flex items-center text-xs text-zinc-400">
+                        <i class="fa-regular fa-clock mr-2 text-barber-gold"></i> 30 minutos
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-barber-card p-6 md:p-8 rounded-2xl border border-zinc-800 hover:border-barber-gold transition group flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-lg md:text-xl font-bold group-hover:text-barber-gold transition">Barba Completa</h3>
+                            <span class="text-barber-gold font-black text-lg md:text-xl ml-2">R$ 25,00</span>
+                        </div>
+                        <p class="text-barber-grayText text-sm mb-6">Toalha quente, alinhamento com navalha, balm hidratante e óleo especial.</p>
+                    </div>
+                    <div class="flex items-center text-xs text-zinc-400">
+                        <i class="fa-regular fa-clock mr-2 text-barber-gold"></i> 25 minutos
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-barber-card p-6 md:p-8 rounded-2xl border border-zinc-800 hover:border-barber-gold transition group flex flex-col justify-between sm:col-span-2 lg:col-span-1">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-lg md:text-xl font-bold group-hover:text-barber-gold transition">Combo Corte + Barba</h3>
+                            <span class="text-barber-gold font-black text-lg md:text-xl ml-2">R$ 55,00</span>
+                        </div>
+                        <p class="text-barber-grayText text-sm mb-6">A experiência completa para o seu visual com desconto especial no combo.</p>
+                    </div>
+                    <div class="flex items-center text-xs text-zinc-400">
+                        <i class="fa-regular fa-clock mr-2 text-barber-gold"></i> 55 minutos
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BARBEIRO -->
+    <section id="barbers" class="py-16 md:py-20 bg-zinc-900 border-t border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="mb-12">
+                <h2 class="text-2xl sm:text-3xl font-bold uppercase tracking-wider mb-2">O <span class="text-barber-gold">Barbeiro</span></h2>
+                <p class="text-barber-grayText text-sm sm:text-base">Profissional dedicado a garantir o melhor atendimento</p>
+            </div>
+
+            <div class="max-w-sm mx-auto bg-barber-card rounded-2xl p-8 text-center border border-zinc-800 shadow-xl">
+                <!-- Foto do Matheus com margem dourada e enquadramento redondo -->
+                <div class="w-28 h-28 mx-auto mb-5 rounded-full border-2 border-barber-gold overflow-hidden shadow-lg shadow-barber-gold/10">
+                    <img src="matheus.jpg" alt="Matheus do Corte" class="w-full h-full object-cover">
+                </div>
+                <h3 class="text-xl font-bold mb-1">Matheus Ferraz</h3>
+                <p class="text-xs text-barber-gold uppercase tracking-widest font-semibold">Fundador & Barbeiro Profissional</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMULÁRIO DE AGENDAMENTO -->
+    <section id="booking" class="py-16 md:py-24 bg-barber-dark border-t border-zinc-800">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-barber-card border border-zinc-800 rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-12 shadow-2xl">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold uppercase tracking-wider mb-2">Faça o seu <span class="text-barber-gold">Agendamento</span></h2>
+                    <p class="text-barber-grayText text-xs sm:text-sm">Preencha os dados abaixo para garantir o seu horário com o Matheus</p>
+                </div>
+
+                <form id="bookingForm" class="space-y-5">
+                    <div>
+                        <label class="block text-xs sm:text-sm font-semibold mb-2">Seu Nome Completo</label>
+                        <input type="text" id="clientName" required class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-barber-gold transition" placeholder="Ex: João Silva">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs sm:text-sm font-semibold mb-2">Seu WhatsApp</label>
+                        <input type="text" id="clientPhone" required class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-barber-gold transition" placeholder="Ex: (83) 99999-9999">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold mb-2">Barbeiro</label>
+                            <select id="barberSelect" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-barber-gold transition">
+                                <option value="Matheus do Corte">Matheus do Corte</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold mb-2">Escolha o Serviço</label>
+                            <select id="serviceSelect" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-barber-gold transition">
+                                <option value="Corte Degradê / Social" data-price="35.00">Corte Degradê / Social - R$ 35,00</option>
+                                <option value="Barba Completa" data-price="25.00">Barba Completa - R$ 25,00</option>
+                                <option value="Combo Corte + Barba" data-price="55.00">Combo Corte + Barba - R$ 55,00</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold mb-2">Data</label>
+                            <input type="date" id="appointmentDate" required class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-barber-gold transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold mb-2">Horário</label>
+                            <select id="appointmentTime" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-barber-gold transition">
+                                <option value="09:00">08:00</option>
+                                <option value="09:00">08:30</option>
+                                <option value="09:00">09:00</option>
+                                <option value="09:00">09:30</option>
+                                <option value="09:00">10:00</option>
+                                <option value="09:00">10:30</option>
+                                <option value="09:00">11:00</option>
+                                <option value="10:00">11:30</option>
+                                <option value="14:00">14:00</option>
+                                <option value="15:00">14:30</option>
+                                <option value="16:00">15:00</option>
+                                <option value="17:00">15:30</option>
+                                <option value="18:00">16:00</option>
+                                <option value="19:00">16:30</option>
+                                <option value="16:00">17:00</option>
+                                <option value="17:00">17:30</option>
+                                <option value="18:00">18:00</option>
+                                <option value="19:00">18:30</option>
+                                <option value="16:00">19:00</option>
+                                <option value="17:00">19:30</option>
+                                <option value="18:00">20:00</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-barber-gold hover:bg-barber-goldHover text-black font-extrabold py-4 rounded-xl transition uppercase tracking-wider text-sm sm:text-base shadow-lg shadow-barber-gold/20 mt-4">
+                        <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Confirmar via WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER COM O BOTÃO DE ACESSO EXCLUSIVO -->
+    <footer class="bg-barber-dark py-10 border-t border-zinc-800 text-center text-barber-grayText text-xs sm:text-sm px-4">
+        <p class="mb-4">&copy; 2026 Barbearia Matheus do Corte. Todos os direitos reservados.</p>
+        <p class="mb-4">Desenvolvido por Lucas Ferraz</p>
+        <a href="admin.html" class="inline-flex items-center text-zinc-500 hover:text-barber-gold transition text-xs tracking-wider uppercase font-semibold">
+            <i class="fa-solid fa-lock mr-2"></i> Acesso exclusivo do barbeiro responsável
+        </a>
+    </footer>
+
+   <!-- SCRIPT DE NAVEGAÇÃO, SALVAMENTO E WHATSAPP -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            } else {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            }
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+
+        // Envio do Formulário: Salva na lista do painel E abre o WhatsApp mantendo a tela ativa
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('clientName').value;
+            const phone = document.getElementById('clientPhone').value;
+            const barber = document.getElementById('barberSelect').value;
+            
+            const serviceSelect = document.getElementById('serviceSelect');
+            const serviceName = serviceSelect.value;
+            const servicePrice = parseFloat(serviceSelect.options[serviceSelect.selectedIndex].getAttribute('data-price')) || 35.00;
+
+            const date = document.getElementById('appointmentDate').value;
+            const time = document.getElementById('appointmentTime').value;
+
+            if(!date) {
+                alert('Por favor, selecione uma data válida.');
+                return;
+            }
+
+            // Criar objeto do agendamento
+            const newAppointment = {
+                id: 'app_' + Date.now(),
+                client_name: name,
+                client_phone: phone,
+                barber_name: barber,
+                service_names: serviceName,
+                total_price: servicePrice,
+                appointment_date: date,
+                appointment_time: time
+            };
+
+            // 1. Salvar no armazenamento local para aparecer imediatamente no admin.html
+            let localAppointments = JSON.parse(localStorage.getItem('barber_appointments_list')) || [];
+            localAppointments.push(newAppointment);
+            localStorage.setItem('barber_appointments_list', JSON.stringify(localAppointments));
+
+            // 2. Sincronizar em background com a API FastAPI
+            try {
+                fetch('http://127.0.0.1:8000/api/v1/appointments/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newAppointment)
+                }).catch(err => console.log('API Python em segundo plano.'));
+            } catch (err) {}
+
+            // 3. Montar a mensagem e abrir o WhatsApp numa nova aba
+            const message = `Olá! Meu nome é *${name}* (${phone}). Gostaria de agendar *${serviceName}* com o barbeiro *${barber}* para o dia *${date}* às *${time}*.`;
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappNumber = "5583982135439";
+            
+            window.open(`https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`, '_blank');
+            
+            // Mensagem de sucesso opcional e limpeza do formulário
+            alert('Agendamento registado com sucesso e redirecionado para o WhatsApp!');
+            document.getElementById('bookingForm').reset();
+        });
+    </script>
